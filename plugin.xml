@@ -90,7 +90,7 @@
 </platform>
 <!-- android -->
 <platform name="android">
-  <config-file target="app/src/main/res/xml/config.xml" parent="/*">
+  <config-file target="res/xml/config.xml" parent="/*">
     <feature name="WeiboSDK" >
       <param name="android-package" value="me.vanpan.weibosdk.WeiboSDKPlugin"/>
     </feature>
@@ -102,7 +102,7 @@
     <preference name="WEIBO_APP_ID" value="$WEIBO_APP_ID"/>
   </config-file>
   <!-- android  uses-permission for weibo sdk-->
-  <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest">
+  <config-file target="AndroidManifest.xml" parent="/manifest">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
