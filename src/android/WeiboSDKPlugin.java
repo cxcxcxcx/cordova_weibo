@@ -30,6 +30,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.util.Log;
 
 public class WeiboSDKPlugin extends CordovaPlugin implements WbShareCallback {
 
@@ -51,6 +52,7 @@ public class WeiboSDKPlugin extends CordovaPlugin implements WbShareCallback {
     private Oauth2AccessToken mAccessToken;
     private String REDIRECT_URL;
     private SsoHandler mSsoHandler;
+    private static final String TAG = "cxcxcxcx";
 
     @Override
     protected void pluginInitialize() {
@@ -60,6 +62,7 @@ public class WeiboSDKPlugin extends CordovaPlugin implements WbShareCallback {
         APP_KEY = webView.getPreferences().getString(WEBIO_APP_ID, "a").substring(1);
         REDIRECT_URL = webView.getPreferences().getString(WEBIO_REDIRECT_URL, DEFAULT_URL);
         WbSdk.install(WeiboSDKPlugin.this.cordova.getActivity(),new AuthInfo(WeiboSDKPlugin.this.cordova.getActivity(), APP_KEY, REDIRECT_URL, SCOPE));
+        Log.v(TAG, "index=" + APP_KEY);
     }
 
     @Override

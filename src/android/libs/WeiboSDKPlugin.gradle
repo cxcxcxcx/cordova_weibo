@@ -13,5 +13,4 @@ android {
 }
 dependencies {
     compile(name: 'openDefault-4.4.0', ext: 'aar')
-    //compile(name: 'weibo_so', ext: 'jar')
 }
