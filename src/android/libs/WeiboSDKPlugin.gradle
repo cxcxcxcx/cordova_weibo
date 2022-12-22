@@ -12,5 +12,5 @@ android {
     }        
 }
 dependencies {
-    compile(name: 'openDefault-4.4.0', ext: 'aar')
+    implementation(name: 'openDefault-12.5.0', ext: 'aar')
 }
