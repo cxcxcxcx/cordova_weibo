@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   id="cordova-plugin-weibosdk"
   version="0.6.4">
 
@@ -108,6 +109,10 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  </config-file>
+  <hook type="after_prepare" src="hooks/android/manifest-hook.js"/>
+  <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest/application">
+    <activity android:name="com.sina.weibo.sdk.share.ShareTransActivity" android:exported="false" tools:replace="android:exported" />
   </config-file>
 
   <source-file src="src/android/WeiboSDKPlugin.java" target-dir="src/me/vanpan/weibosdk" />
