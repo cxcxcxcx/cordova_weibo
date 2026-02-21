@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   id="cordova-plugin-weibosdk"
-  version="0.6.4">
+  version="0.7.0">
 
   <name>WeiboSDK</name>
   <description>A Cordova wrapper around the Sina WeiboSDK for Android and iOS. Provides access to ssoLogin, WeiboShating etc</description>
@@ -13,6 +13,7 @@
   <issue>https://github.com/iVanPan/cordova_weibo/issues</issue>
 
   <preference name="WEIBO_APP_ID" />
+  <!-- WEIBO_UNIVERSAL_LINK and WEIBO_ASSOCIATED_DOMAIN are not declared here so they are not required at plugin add; set them in the app's config.xml (iOS platform). -->
   <!--require cordova version -->
   <engines>
     <engine name="cordova" version=">=3.5.0" />
@@ -54,22 +55,40 @@
       </dict>
     </array>
   </config-file>
-  <!--scheme query whitlist-->
+  <!-- Associated Domains for Universal Links (applinks:domain) -->
+  <config-file platform="ios" target="*.entitlements" parent="com.apple.developer.associated-domains">
+    <array>
+      <string>applinks:$WEIBO_ASSOCIATED_DOMAIN</string>
+    </array>
+  </config-file>
+  <config-file platform="ios" target="*-Debug.plist" parent="com.apple.developer.associated-domains">
+    <array>
+      <string>applinks:$WEIBO_ASSOCIATED_DOMAIN</string>
+    </array>
+  </config-file>
+  <config-file platform="ios" target="*-Release.plist" parent="com.apple.developer.associated-domains">
+    <array>
+      <string>applinks:$WEIBO_ASSOCIATED_DOMAIN</string>
+    </array>
+  </config-file>
+  <!--scheme query whitelist (weibosdk3.3 required for iOS14+ Universal Link / share)-->
   <config-file platform="ios" target="*-Info.plist" parent="LSApplicationQueriesSchemes">
       <array>
 		    <string>sinaweibohd</string>
 		    <string>sinaweibo</string>
 		    <string>weibosdk</string>
 		    <string>weibosdk2.5</string>
+		    <string>weibosdk3.3</string>
       </array>
   </config-file>
   <header-file src="src/ios/CDVWeiboSDK.h"/>
   <source-file src="src/ios/CDVWeiboSDK.m"/>
-  <!-- Weibo sdk version 3.2.2 https://github.com/sinaweibosdk/weibo_ios_sdk -->
+  <!-- Weibo SDK from https://github.com/sinaweibosdk/weibo_ios_sdk (3.3.x) -->
   <header-file src="src/ios/libWeiboSDK/WBHttpRequest.h" />
   <header-file src="src/ios/libWeiboSDK/WeiboSDK.h" />
-  <source-file src="src/ios/libWeiboSDK/libWeiboSDK.a" framework="true"  compiler-flags="-objc"/>
+  <source-file src="src/ios/libWeiboSDK/libWeiboSDK.a" framework="true" compiler-flags="-objc"/>
   <resource-file src="src/ios/libWeiboSDK/WeiboSDK.bundle" />
+  <!-- PrivacyInfo.xcprivacy omitted to avoid "Multiple commands produce" when the app or another plugin already includes one -->
 
   <!--required frameworks for weibo sdk-->
   <framework src="QuartzCore.framework" />
@@ -117,22 +136,7 @@
 
   <source-file src="src/android/WeiboSDKPlugin.java" target-dir="src/me/vanpan/weibosdk" />
   <!-- android weibo sdk version 4.4.0  https://github.com/sinaweibosdk/weibo_android_sdk-->
-  <source-file src="src/android/libs/so/arm64-v8a/libweibosdkcore.so" target-dir="app/libs/arm64-v8a/"/>
-  <source-file src="src/android/libs/so/arm64-v8a/libwind.so" target-dir="app/libs/arm64-v8a/"/>
-  <source-file src="src/android/libs/so/arm64-v8a/libutility.so" target-dir="app/libs/arm64-v8a/"/>
-  <source-file src="src/android/libs/so/armeabi/libweibosdkcore.so" target-dir="app/libs/armeabi/"/>
-  <source-file src="src/android/libs/so/armeabi-v7a/libweibosdkcore.so" target-dir="app/libs/armeabi-v7a/"/>
-  <source-file src="src/android/libs/so/armeabi-v7a/libwind.so" target-dir="app/libs/armeabi-v7a/"/>
-  <source-file src="src/android/libs/so/armeabi-v7a/libutility.so" target-dir="app/libs/armeabi-v7a/"/>
-  <source-file src="src/android/libs/so/mips/libweibosdkcore.so" target-dir="app/libs/mips/"/>
-  <source-file src="src/android/libs/so/mips64/libweibosdkcore.so" target-dir="app/libs/mips64/"/>
-  <source-file src="src/android/libs/so/x86/libweibosdkcore.so" target-dir="app/libs/x86/"/>
-  <source-file src="src/android/libs/so/x86/libutility.so" target-dir="app/libs/x86/"/>
-  <source-file src="src/android/libs/so/x86/libwind.so" target-dir="app/libs/x86/"/>
-  <source-file src="src/android/libs/so/x86_64/libweibosdkcore.so" target-dir="app/libs/x86_64/"/>
-  <source-file src="src/android/libs/so/x86_64/libutility.so" target-dir="app/libs/x86_64/"/>
-  <source-file src="src/android/libs/so/x86_64/libwind.so" target-dir="app/libs/x86_64/"/>
-  <source-file src="src/android/libs/openDefault-12.5.0.aar" target-dir="app/libs/" />
+  <source-file src="src/android/libs/core-13.10.5.aar" target-dir="app/libs/" />
   <!--<source-file src="src/android/libs/weibo_so.jar" target-dir="app/libs/" />-->
   <framework src="src/android/libs/WeiboSDKPlugin.gradle" custom="true" type="gradleReference" />
 </platform>

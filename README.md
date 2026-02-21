@@ -19,9 +19,18 @@ A Cordova wrapper around the Sina WeiboSDK for Android and iOS. Provides access 
 - Cordova-iOS >= 4.0			
 
 ## Installation
-1. ```cordova plugin add cordova-plugin-weibosdk --variable WEIBO_APP_ID=YOUR_WEIBO_APPID```
-2. Add ```<preference name="REDIRECTURI" value="YOUR_WEIBO_REDIRECTURI" />``` in your config.xml If you don't add this preference the defualt redirecturi is https://api.weibo.com/oauth2/default.html               
-3. cordova build
+1. Add the plugin with your app ID:  
+   ```cordova plugin add cordova-plugin-weibosdk --variable WEIBO_APP_ID=YOUR_WEIBO_APPID```
+2. Add ```<preference name="REDIRECTURI" value="YOUR_WEIBO_REDIRECTURI" />``` in your config.xml. If you don't add this preference the default redirect URI is https://api.weibo.com/oauth2/default.html
+3. (iOS) **Universal Link variables** — the plugin uses these for SDK 3.3+ and Associated Domains. Set them in your app’s **config.xml** under `<platform name="ios">` (the plugin does not inject them; the app owns these values):
+   - **WEIBO_UNIVERSAL_LINK** — full Universal Link URL (e.g. `https://yourdomain.com/weibo/`). Required for Weibo SDK 3.3+.
+   - **WEIBO_ASSOCIATED_DOMAIN** — domain only for the Associated Domains entitlement (e.g. `web.xiangyin.mobi`). The plugin injects `applinks:YOUR_DOMAIN` into the iOS project using this value.
+   - Example in config.xml:
+     ```xml
+     <preference name="WEIBO_UNIVERSAL_LINK" value="https://web.xiangyin.mobi/weibo/" />
+     <preference name="WEIBO_ASSOCIATED_DOMAIN" value="web.xiangyin.mobi" />
+     ```
+4. cordova build
 
 
 ## Notes
@@ -108,7 +117,7 @@ http.get(url)
 <div style="text-align:center"><img src="https://github.com/iVanPan/cordova_weibo/blob/master/ScreenShot.png?raw=true" alt="example" style="width:300px"></div> 
 
 ## About WeiboSdk
-you can downlaod last weibosdk [here](https://github.com/sinaweibosdk) .if you find any problem about weibosdk, open an isssus please.
+iOS plugin uses [weibo_ios_sdk](https://github.com/sinaweibosdk/weibo_ios_sdk) (3.3.x). You can download the latest SDK there; if you find any problem about the Weibo SDK, open an issue please.
 
 ## Contributing
 Feel free to contribute                 

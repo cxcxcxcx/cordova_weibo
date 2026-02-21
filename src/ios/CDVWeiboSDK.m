@@ -1,6 +1,7 @@
 #import "CDVWeiboSDK.h"
 
 NSString *WEBIO_APP_ID = @"weibo_app_id";
+NSString *WEIBO_UNIVERSAL_LINK_KEY = @"weibo_universal_link";
 NSString *WEBIO_REDIRECT_URI = @"redirecturi";
 NSString *WEBIO_DEFUALT_REDIRECT_URI = @"https://api.weibo.com/oauth2/default.html";
 NSString *WEIBO_CANCEL_BY_USER = @"cancel by user";
@@ -15,11 +16,16 @@ NSString *WEIBO_USER_CANCEL_INSTALL = @"user cancel install weibo";
 @implementation CDVWeiboSDK
 /**
  *  插件初始化主要用于appkey的注册
+ *  Weibo SDK 3.3+ 要求 registerApp:universalLink:；无 Universal Link 时传空字符串即可。
  */
 - (void)pluginInitialize {
     NSString *weiboAppId = [[self.commandDelegate settings] objectForKey:WEBIO_APP_ID];
     self.weiboAppId = weiboAppId;
-    [WeiboSDK registerApp:weiboAppId];
+    NSString *universalLink = [[self.commandDelegate settings] objectForKey:WEIBO_UNIVERSAL_LINK_KEY];
+    if (!universalLink || [universalLink length] == 0) {
+        universalLink = @"";
+    }
+    [WeiboSDK registerApp:weiboAppId universalLink:universalLink];
     NSString *redirectURI = [[self.commandDelegate settings] objectForKey:WEBIO_REDIRECT_URI];
     if (nil == redirectURI) {
         self.redirectURI = WEBIO_DEFUALT_REDIRECT_URI;
@@ -56,7 +62,7 @@ NSString *WEIBO_USER_CANCEL_INSTALL = @"user cancel install weibo";
                           @"Other_Info_1" : [NSNumber numberWithInt:123],
                           @"Other_Info_2" : @[ @"obj1", @"obj2" ],
                           @"Other_Info_3" : @{@"key1" : @"obj1", @"key2" : @"obj2"} };
-    [WeiboSDK sendRequest:request];
+    [WeiboSDK sendRequest:request completion:^(BOOL success) {}];
 }
 
 /**
@@ -108,7 +114,7 @@ NSString *WEIBO_USER_CANCEL_INSTALL = @"user cancel install weibo";
                            @"Other_Info_1" : [NSNumber numberWithInt:123],
                            @"Other_Info_2" : @[ @"obj1", @"obj2" ],
                            @"Other_Info_3" : @{@"key1" : @"obj1", @"key2" : @"obj2"} };
-     [WeiboSDK sendRequest:request];
+     [WeiboSDK sendRequest:request completion:^(BOOL success) {}];
  }
 /**
  *  分享图片到微博
@@ -134,7 +140,7 @@ NSString *WEIBO_USER_CANCEL_INSTALL = @"user cancel install weibo";
                           @"Other_Info_1" : [NSNumber numberWithInt:123],
                           @"Other_Info_2" : @[ @"obj1", @"obj2" ],
                           @"Other_Info_3" : @{@"key1" : @"obj1", @"key2" : @"obj2"} };
-    [WeiboSDK sendRequest:request];
+    [WeiboSDK sendRequest:request completion:^(BOOL success) {}];
 }
 /**
  *  分享文字到微博
@@ -157,7 +163,7 @@ NSString *WEIBO_USER_CANCEL_INSTALL = @"user cancel install weibo";
                           @"Other_Info_1" : [NSNumber numberWithInt:123],
                           @"Other_Info_2" : @[ @"obj1", @"obj2" ],
                           @"Other_Info_3" : @{@"key1" : @"obj1", @"key2" : @"obj2"} };
-    [WeiboSDK sendRequest:request];
+    [WeiboSDK sendRequest:request completion:^(BOOL success) {}];
 }
 
 /**
